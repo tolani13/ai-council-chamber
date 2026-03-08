@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,9 +8,11 @@ import { Shield } from "lucide-react";
 import { toast } from "sonner";
 import { Navigate } from "react-router-dom";
 
+type AuthView = "signin" | "signup" | "forgot";
+
 export default function Auth() {
   const { user, loading } = useAuth();
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [view, setView] = useState<AuthView>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -23,9 +26,15 @@ export default function Auth() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      if (isSignUp) {
+      if (view === "signup") {
         await signUp(email, password, displayName);
         toast.success("Account created. You can now sign in.");
+      } else if (view === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success("Password reset email sent. Check your inbox.");
       } else {
         await signIn(email, password);
         toast.success("Signed in successfully.");
@@ -47,11 +56,13 @@ export default function Auth() {
             </div>
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Politburo Console</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Multi-Model Orchestration Cockpit</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {view === "forgot" ? "Reset your password" : "Multi-Model Orchestration Cockpit"}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {isSignUp && (
+          {view === "signup" && (
             <div>
               <Label htmlFor="name" className="text-sm text-muted-foreground">Display Name</Label>
               <Input id="name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className="mt-1 bg-card border-border" />
@@ -61,19 +72,36 @@ export default function Auth() {
             <Label htmlFor="email" className="text-sm text-muted-foreground">Email</Label>
             <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 bg-card border-border" />
           </div>
-          <div>
-            <Label htmlFor="password" className="text-sm text-muted-foreground">Password</Label>
-            <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 bg-card border-border" />
-          </div>
+          {view !== "forgot" && (
+            <div>
+              <Label htmlFor="password" className="text-sm text-muted-foreground">Password</Label>
+              <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 bg-card border-border" />
+            </div>
+          )}
           <Button type="submit" disabled={submitting} className="w-full">
-            {submitting ? "Processing..." : isSignUp ? "Create Account" : "Sign In"}
+            {submitting
+              ? "Processing..."
+              : view === "signup"
+              ? "Create Account"
+              : view === "forgot"
+              ? "Send Reset Link"
+              : "Sign In"}
           </Button>
         </form>
 
+        {view === "signin" && (
+          <button onClick={() => setView("forgot")} className="block w-full text-center text-xs text-muted-foreground hover:text-gold">
+            Forgot password?
+          </button>
+        )}
+
         <p className="text-center text-sm text-muted-foreground">
-          {isSignUp ? "Already have an account?" : "No account yet?"}{" "}
-          <button onClick={() => setIsSignUp(!isSignUp)} className="text-gold hover:underline font-medium">
-            {isSignUp ? "Sign in" : "Create one"}
+          {view === "signup" ? "Already have an account?" : view === "forgot" ? "Remember your password?" : "No account yet?"}{" "}
+          <button
+            onClick={() => setView(view === "signup" ? "signin" : view === "forgot" ? "signin" : "signup")}
+            className="text-gold hover:underline font-medium"
+          >
+            {view === "signup" ? "Sign in" : view === "forgot" ? "Sign in" : "Create one"}
           </button>
         </p>
 
