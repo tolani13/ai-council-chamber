@@ -11,9 +11,9 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import politburoSymbol from "@/assets/politburo-logo-symbol.png";
 
 const navItems = [
   { path: "/", icon: LayoutDashboard, label: "Dashboard" },
@@ -43,14 +43,15 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         collapsed ? "w-16" : "w-60"
       )}
     >
-      <div className="flex h-14 items-center border-b border-border px-4">
-        {!collapsed && (
+      <div className="flex h-14 items-center border-b border-border px-3">
+        {!collapsed ? (
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5 text-gold" />
+            <img src={politburoSymbol} alt="Politburo" className="h-7 w-auto" draggable={false} />
             <span className="text-sm font-bold tracking-widest text-gold uppercase">Politburo</span>
           </div>
+        ) : (
+          <img src={politburoSymbol} alt="Politburo" className="mx-auto h-7 w-auto" draggable={false} />
         )}
-        {collapsed && <Shield className="mx-auto h-5 w-5 text-gold" />}
       </div>
 
       <nav className="flex-1 space-y-1 p-2 overflow-y-auto">

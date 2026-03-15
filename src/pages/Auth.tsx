@@ -4,9 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Shield } from "lucide-react";
 import { toast } from "sonner";
 import { Navigate } from "react-router-dom";
+import politburoLogo from "@/assets/politburo-logo-full.png";
 
 type AuthView = "signin" | "signup" | "forgot";
 
@@ -48,16 +48,16 @@ export default function Auth() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-sm space-y-8">
-        <div className="text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="rounded-full border border-gold-dim p-3 glow-gold">
-              <Shield className="h-8 w-8 text-gold" />
-            </div>
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Politburo Console</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {view === "forgot" ? "Reset your password" : "Multi-Model Orchestration Cockpit"}
+      <div className="w-full max-w-sm space-y-6">
+        <div className="flex flex-col items-center">
+          <img
+            src={politburoLogo}
+            alt="Politburo AI Console"
+            className="w-72 h-auto mb-6"
+            draggable={false}
+          />
+          <p className="text-sm text-muted-foreground">
+            {view === "forgot" ? "Reset your password" : "Intelligence. Orchestrated."}
           </p>
         </div>
 
