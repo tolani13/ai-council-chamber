@@ -58,7 +58,7 @@ export default function Auth() {
           />
         </div>
 
-        <div className="w-full max-w-[340px] space-y-8">
+        <div className="w-full max-w-[520px] space-y-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             {view === "signup" && (
               <div>
