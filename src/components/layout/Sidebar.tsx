@@ -45,12 +45,12 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     >
       <div className="flex h-14 items-center border-b border-border px-3">
         {!collapsed ? (
-          <div className="flex items-center gap-2">
-            <img src={politburoSymbol} alt="Politburo" className="h-7 w-auto" draggable={false} />
-            <span className="text-sm font-bold tracking-widest text-gold uppercase">Politburo</span>
+          <div className="flex items-center gap-2.5">
+            <img src={politburoSymbol} alt="Politburo" className="h-8 w-auto mix-blend-lighten" draggable={false} />
+            <span className="text-sm font-semibold tracking-[0.2em] uppercase text-foreground">Politburo</span>
           </div>
         ) : (
-          <img src={politburoSymbol} alt="Politburo" className="mx-auto h-7 w-auto" draggable={false} />
+          <img src={politburoSymbol} alt="Politburo" className="mx-auto h-8 w-auto mix-blend-lighten" draggable={false} />
         )}
       </div>
 
