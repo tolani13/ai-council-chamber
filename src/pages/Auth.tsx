@@ -48,12 +48,12 @@ export default function Auth() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-md space-y-8">
+      <div className="w-full max-w-[520px] space-y-8">
         <div className="flex justify-center">
           <img
             src={politburoLogo}
             alt="Politburo"
-            className="w-full max-w-[36rem] h-auto mix-blend-lighten"
+            className="w-full h-auto mix-blend-lighten"
             draggable={false}
           />
         </div>
