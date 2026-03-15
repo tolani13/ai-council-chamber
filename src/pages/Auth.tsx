@@ -49,21 +49,13 @@ export default function Auth() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="w-full max-w-md space-y-8">
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex justify-center">
           <img
             src={politburoLogo}
             alt="Politburo"
-            className="w-[28rem] max-w-full h-auto mix-blend-lighten"
+            className="w-full max-w-[36rem] h-auto mix-blend-lighten"
             draggable={false}
           />
-          <div className="flex flex-col items-center gap-1.5">
-            <h1 className="text-lg font-semibold tracking-[0.25em] uppercase text-foreground">
-              AI Console
-            </h1>
-            <p className="text-sm tracking-widest text-muted-foreground font-light">
-              {view === "forgot" ? "Reset your password" : "Intelligence. Orchestrated."}
-            </p>
-          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
